@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LifeBuddy</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      padding: 40px;
+    }
+    .chat-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+    .message {
+      background-color: #f2f2f2;
+      padding: 10px;
+      border-radius: 10px;
+      margin: 10px 0;
+    }
+    .user-message {
+      text-align: right;
+    }
+    .bot-message {
+      text-align: left;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    /* Style for the logo */
+    .logo-container {
+      text-align: center;
+    }
+    .logo-image {
+      max-width: 200px; /* Adjust the size as needed */
+      margin-right: 900px; /* Add spacing between the image and content */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Replace the title with the logo -->
+    <div class="logo-container">
+      <img src="https://www.svgrepo.com/show/339963/chat-bot.svg" alt="LifeBuddy Logo" class="logo-image">
+    </div>
+    <!-- Chat interface container -->
+    <div class="chat-container">
+      <div class="message bot-message">Welcome! How can I assist you today?</div>
+      <div class="message user-message">
+        <input type="text" id="userInput" class="form-control" placeholder="Type your message...">
+      </div>
+    </div>
+
+    <!-- Goals Selection -->
+    <div class="form-group mt-4">
+      <label for="goals">Select Goals:</label>
+      <select multiple class="form-control" id="goals" name="goals">
+        <option value="lose_weight">Lose Weight</option>
+        <option value="gain_muscle">Gain Muscle</option>
+        <option value="improve_health">Improve Health</option>
+        <!-- Add more goal options here -->
+      </select>
+    </div>
+    
+    <!-- Activities Selection -->
+    <div class="form-group">
+      <label for="activities">Select Activities:</label>
+      <select multiple class="form-control" id="activities" name="activities">
+        <option value="group_fitness">Group Fitness Classes</option>
+        <option value="cardio">Cardio Workouts</option>
+        <option value="yoga">Yoga and Meditation</option>
+        <!-- Add more activity options here -->
+      </select>
+    </div>
+
+  <!-- Add this button at the end of your index.html -->
+<button type="button" class="btn btn-primary" onclick="redirectToResults()">Get Recommendations</button>
+
+<script>
+  function redirectToResults() {
+    // Redirect to the results page when the button is clicked
+    window.location.href = '/result';
+  }
+</script>
+
+
+  <!-- Include the chatbot JavaScript code -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+  <script>
+    const chatContainer = document.querySelector('.chat-container');
+    const userInput = document.getElementById('userInput');
+
+    function addMessage(message, isUser) {
+      const messageContainer = document.createElement('div');
+      messageContainer.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+      messageContainer.innerText = message;
+      chatContainer.appendChild(messageContainer);
+      userInput.value = '';
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    function sendMessage() {
+      const userMessage = userInput.value;
+      addMessage(userMessage, true);
+
+      const options = {
+        method: 'POST',
+        url: 'https://chatgpt-gpt4-ai-chatbot.p.rapidapi.com/ask',
+        headers: {
+          'content-type': 'application/json',
+          'X-RapidAPI-Key': '406fab59f5mshb95036ed62fe55bp1b6b7ajsn81d3779688b5', // Replace with your RapidAPI key
+          'X-RapidAPI-Host': 'chatgpt-gpt4-ai-chatbot.p.rapidapi.com'
+        },
+        data: {
+          query: userMessage,
+          wordLimit: '256'
+        }
+      };
+
+      axios.request(options)
+        .then((response) => {
+          const botReply = response.data.response;
+          addMessage(botReply, false);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+
+    userInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+    })  
+  </script>
+</body>
+</html>
+

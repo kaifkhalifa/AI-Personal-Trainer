@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recommendations</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4">Recommended LifeCafe Food Items</h1>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-4">
+                    <img src="https://www.lifetime.life/content/dam/mylt/images/cafe/kids-meal-hero-xs-sm-md.jpg" alt="Recommended Food Image" class="img-thumbnail">
+                </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Food</th>
+                    <th>Protein (g)</th>
+                    <th>Fat (g)</th>
+                    <th>Carbohydrates (g)</th>
+                    <th>Calories</th>
+                    <th>Portion Size</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(recommended_foods|length) %}
+                    {% set food_item = recommended_foods[i] %}
+                    {% set score = recommendation_scores[i] %}
+                    <tr>
+                        <td>{{ food_item.name }}</td>
+                        <td>{{ food_item.protein }}</td>
+                        <td>{{ food_item.fat }}</td>
+                        <td>{{ food_item.carbohydrates }}</td>
+                        <td>{{ food_item.calories }}</td>
+                        <td>{{ food_item.portion_sizes }}</td>
+                        <td>{{ score }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h1 class="mb-4">Lifetime Supplements Recommendations</h1>
+        <!-- The images below serve as a visual representation, 
+        but to provide accurate supplement recommendations based on 
+        specific goals, we utilize an algorithmic approach. -->
+        <div class="row">
+            <div class="col-md-4">
+                <img src="https://shop.lifetime.life/media/catalog/product/8/5/850009173034-rxsugar-swealthy-stix-30-stick-carton-q42022-2000x2000-front.jpg?quality=80&bg-color=255,255,255&fit=bounds&height=589&width=471&canvas=471:589" alt="Supplement 1" class="img-thumbnail">
+            </div>
+            <div class="col-md-4">
+                <img src="https://shop.lifetime.life/media/catalog/product/8/5/850009173133-rxsugar-organic-caramel-syrup-q42021-2000x2000-front.jpg?quality=80&bg-color=255,255,255&fit=bounds&height=589&width=471&canvas=471:589" alt="Supplement 2" class="img-thumbnail">
+            </div>
+            <div class="col-md-4">
+                <img src="https://shop.lifetime.life/media/catalog/product/l/-/l-glutamine-1140-ecomm.jpg?quality=80&bg-color=255,255,255&fit=bounds&height=589&width=471&canvas=471:589" alt="Supplement 3" class="img-thumbnail">
+            </div>
+        </div>
+<h1 class="mb-4">Activities to meet your goals today!</h1>
+<div class="card-deck">
+    <div class="card">
+        <img src="https://www.lifetime.life/content/dam/ltp/images/training/alpha/alpha-strength-program-xl.jpg" class="card-img-top" alt="Alpha Strength Class">
+        <div class="card-body">
+            <h5 class="card-title">Alpha Strength Class</h5>
+            <p class="card-text">Instructor: Benjamin G.</p>
+            <p class="card-text">Time: 9:00 AM</p>
+        </div>
+    </div>
+    <div class="card">
+        <img src="https://www.lifetime.life/content/dam/mylt/images/pickleball/pickleball-od-f-doubles-playing-09.jpg" class="card-img-top" alt="Pickleball League">
+        <div class="card-body">
+            <h5 class="card-title">Pickleball League</h5>
+            <p class="card-text">Time: 12:00 PM</p>
+        </div>
+    </div>
+    <div class="card">
+        <img src="https://www.lifetime.life/content/dam/mylt/images/lifespa/spa-2023/lsin22585252-web-lifespa-body-lg-3200x1068.jpg" class="card-img-top" alt="CBD Massage">
+        <div class="card-body">
+            <h5 class="card-title">CBD Massage</h5>
+            <p class="card-text">Time: 3:00 PM</p>
+        </div>
+    </div>
+</div>
+
+<a href="{{ url_for('index') }}" class="btn btn-primary mt-4">Go Back</a>
+<button class="btn btn-primary mt-4">Healthy Lifetime Recipes</button>
+</div>
+</body>
+</html>
